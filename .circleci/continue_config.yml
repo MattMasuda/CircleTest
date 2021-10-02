@@ -3,13 +3,13 @@ version: 2.1
 # the default pipeline parameters, which will be updated according to
 # the results of the path-filtering orb
 parameters:
-  build-docs:
+  run-docs-workflow:
     type: boolean
     default: false
-  build-infra:
+  run-infra-workflow:
     type: boolean
     default: false
-  build-code:
+  run-code-workflow:
     type: boolean
     default: false
 
