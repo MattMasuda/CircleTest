@@ -7,6 +7,17 @@ setup: true
 orbs:
   path-filtering: circleci/path-filtering@0.0.3
 
+parameters:
+  run-docs-workflow:
+    type: boolean
+    default: false
+  run-infra-workflow:
+    type: boolean
+    default: false
+  run-code-workflow:
+    type: boolean
+    default: false
+
 workflows:
   # the always-run workflow is always triggered, regardless of the pipeline parameters.
   always-run:
@@ -27,4 +38,49 @@ workflows:
           # path filtering and pipeline parameter value updates are
           # complete. In this case, we are using the parent dynamic
           # configuration itself.
-          config-path: .circleci/continue_config.yml
+          config-path: .circleci/config.yml
+  build-docs:
+    when: << pipeline.parameters.run-docs-workflow >>
+    jobs:
+      - say-hello-docs
+      # other jobs here
+
+  build-infra:
+    when: << pipeline.parameters.run-infra-workflow >>
+    jobs:
+      - say-hello-infra
+      # other jobs here
+
+  build-code:
+    when: << pipeline.parameters.run-code-workflow >>
+    jobs:
+      - say-hello-code
+      # other jobs here
+
+jobs:
+  say-hello-docs:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Mkdocs here"
+
+  say-hello-infra:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Terraform some stuff"
+
+  say-hello-code:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
